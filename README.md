@@ -23,4 +23,4 @@ Then simply clone or download the repository from above, and run the following c
     make
 
 # INFO
-if you want to know more about developing games for the TI-84 plus CE calculator, I highly recommend to take a look at the [CE C Toolchain](https://github.com/CE-Programming/toolchain) they also have a [documentation](https://ce-programming.github.io/toolchain/).
+if you want to know more about developing games for the TI-84 plus CE calculator, I highly recommend to take a look at the [CE C Toolchain](https://github.com/CE-Programming/toolchain) they also have a [documentation](https://ce-programming.github.io/toolchain/). You can also use the [CEmu emulator](https://github.com/CE-Programming/CEmu) to experiment on a virtual calculator, so that if you do something wrong, you won't crash your actual calculator.
