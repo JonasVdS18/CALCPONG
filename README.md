@@ -17,6 +17,7 @@ If you would like to build CALCPONG yourself, be sure you have the latest LLVM [
 Then simply clone or download the repository from above, and run the following commands:
 
   make gfx
+  
   make
 
 # INFO
