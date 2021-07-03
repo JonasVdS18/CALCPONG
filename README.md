@@ -16,9 +16,8 @@ If you would like to build CALCPONG yourself, be sure you have the latest LLVM [
 
 Then simply clone or download the repository from above, and run the following commands:
 
-  make gfx
-  
-  make
+    make gfx
+    make
 
 # INFO
 if you want to know more about developing games for the TI-84 plus CE calculator, I highly recommend to take a look at the [CE C Toolchain](https://github.com/CE-Programming/toolchain) they also have a [documentation](https://ce-programming.github.io/toolchain/) where they explain how to get started.
