@@ -10,3 +10,14 @@ Since this was the first game that I made for the TI-84 plus CE calculator, it's
 # SCREENSHOTS
 ![image](https://user-images.githubusercontent.com/81973766/124315341-16320c00-db74-11eb-9321-205648276604.png)
 ![PongScored](https://user-images.githubusercontent.com/81973766/124316212-89884d80-db75-11eb-9fc8-8983b0e11ebb.png)
+
+# BUILDING
+If you would like to build CALCPONG yourself, be sure you have the latest LLVM [CE C Toolchain](https://github.com/CE-Programming/toolchain/releases/latest) installed.
+
+Then simply clone or download the repository from above, and run the following commands:
+
+  make gfx
+  make
+
+# INFO
+if you want to know more about developing games for the TI-84 plus CE calculator, I highly recommend to take a look at the [CE C Toolchain](https://github.com/CE-Programming/toolchain) they also have a [documentation](https://ce-programming.github.io/toolchain/) where they explain how to get started.
