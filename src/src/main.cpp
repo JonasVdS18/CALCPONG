@@ -11,6 +11,9 @@ Player* player;//declares the Player
 Player* playerTwo;//declares the second Player
 Ball* ball;//declares the Ball
 
+unsigned int scoreLeftPlayer;//the score of the player on the left side of the screen
+unsigned int scoreRightPlayer;//the score of the player on the right side of the screen
+
 
 void Setup()
 {
@@ -29,6 +32,9 @@ void Setup()
 
     gfx_SetTransparentColor(0);
 
+    /*sets up the score count*/
+    scoreLeftPlayer = 0;
+    scoreRightPlayer = 0;
 }
 
 void Restart()
@@ -48,20 +54,26 @@ void Draw()
         gfx_SwapDraw();//swaps the buffer so the stuff we just drew to it will be displayed on the screen
         delay(2000);//waits two seconds
         Restart();
+        scoreLeftPlayer++;
         return;
-    }else if(ball->collision == PLAYER_TWO_INDEX)
+    }else if(ball->collision == WALL_LEFT)
     {
         gfx_PrintStringXY("THE PLAYER ON THE RIGHT SCORED!", 55, LCD_MIDDLE_Y);
         gfx_SwapDraw();//swaps the buffer so the stuff we just drew to it will be displayed on the screen
         delay(2000);//waits two seconds
         Restart();
+        scoreRightPlayer++;
         return;
     }
     
     gfx_Sprite(player->sprite, player->x, player->y);
     gfx_Sprite(playerTwo->sprite, playerTwo->x, playerTwo->y);
     gfx_TransparentSprite(ball->sprite, ball->x, ball->y);
-    
+    gfx_SetTextXY(5, 5);
+    gfx_PrintUInt(scoreLeftPlayer, 4);
+    gfx_SetTextXY(284, 5);
+    gfx_PrintUInt(scoreRightPlayer, 4);
+
     gfx_SwapDraw();//swaps the buffer so the stuff we just drew to it will be displayed on the screen
 }
 
