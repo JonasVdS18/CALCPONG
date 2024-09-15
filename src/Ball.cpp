@@ -35,7 +35,7 @@ Ball::Ball(gfx_sprite_t* sprite, Player* player, Player* playerTwo)//constructor
     this->collision = NONE;
 }
 
-void Ball::Reset()//function definition
+void Ball::reset()//function definition
 {
     /*reset the position and velocity variables*/
     x = LCD_MIDDLE_X - BALL_HEIGHT/2;
@@ -85,7 +85,7 @@ char Ball::CheckBallCollisions()//function definition
     }
 }
 
-void Ball::Move()//function definition
+void Ball::move()//function definition
 {   
     collision = CheckBallCollisions();//checks if there is a collision
     if(collision == WALL_DOWN || collision == WALL_UP)

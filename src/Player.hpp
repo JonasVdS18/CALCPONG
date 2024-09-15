@@ -17,7 +17,8 @@ public:
     /*Definitions*/
     Player(gfx_sprite_t* sprite, int x, int y, char playerIndex);//constructor
 
-    void Reset();
+    void reset();
 
-    void Move();
+    void move();
+    void move(char direction);//move function for 1 player opponent
 };

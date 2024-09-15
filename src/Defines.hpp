@@ -31,3 +31,10 @@
 
 #define PLAYER_ONE_INDEX 1
 #define PLAYER_TWO_INDEX 2
+
+#define UP 0
+#define DOWN 1
+
+#define SINGLEPLAYER 1
+#define MULTIPLAYER 2
+#define QUIT 3

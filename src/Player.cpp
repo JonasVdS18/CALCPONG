@@ -16,12 +16,12 @@ Player::Player(gfx_sprite_t* sprite, int x, int y, char playerIndex)//constructo
     this->sprite = sprite;
 }
 
-void Player::Reset()//function definition
+void Player::reset()//function definition
 {
     x = sx;//sets the x coordinate to the x start coordinate
     y = sy;//sets the y coordinate to the y start coordinate
 }
-void Player::Move()//function definition
+void Player::move()//function definition
 {
     if (playerIndex == PLAYER_TWO_INDEX)//if the player is the second player
     {
@@ -34,20 +34,18 @@ void Player::Move()//function definition
             if(y > 0)
             {
                 y -= PLAYER_SPEED;//subtract the player speed from the player y position to move up
-                break;
             }
             break;
             case kb_Down://if the Down(arrow) key is pressed
             if(y <= MAX_PLAYER_Y)
             {
                 y += PLAYER_SPEED;//adds the player speed to the player y position to move down
-            break;
             }
             break;
         default:
             break;
         }
-    }else//if the player is the second player
+    }else//if the player is the first player
     {
         /*check the input from the 2nd and alpha key*/
         kb_Scan();
@@ -61,5 +59,29 @@ void Player::Move()//function definition
             y += PLAYER_SPEED;//adds the player speed to the player y position to move down
             return;
         }
+    }
+}
+
+void Player::move(char direction)//function definition
+{
+    switch (direction)
+    {
+    case UP:
+        if(y > 0)
+        {
+            y -= PLAYER_SPEED;//subtract the player speed from the player y position to move up
+        }
+        break;
+
+    case DOWN:
+
+        if(y <= MAX_PLAYER_Y)
+        {
+            y += PLAYER_SPEED;//adds the player speed to the player y position to move down
+        }
+        break;
+
+    default:
+        break;
     }
 }

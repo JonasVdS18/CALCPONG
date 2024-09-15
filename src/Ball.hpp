@@ -13,6 +13,7 @@ public:
     float x, y;//the x and y coordinate of the ball
     float vx, vy;//the x and y velocity of the ball
     char collision;//a variable that stores what the ball just collided with
+
     gfx_sprite_t* sprite;//the ball sprite
 
     Player* player;//reference to the player
@@ -20,9 +21,9 @@ public:
 
     Ball(gfx_sprite_t* sprite, Player* player, Player* playerTwo);//constructor
 
-    void Reset();
+    void reset();
 
     char CheckBallCollisions();
 
-    void Move();
+    void move();
 };
