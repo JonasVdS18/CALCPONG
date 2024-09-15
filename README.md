@@ -11,13 +11,15 @@ This was my first project ever in c/c++ for the TI-84 plus CE calculator, so the
 You are always free to add new features.
 
 # SCREENSHOTS
-![image](https://user-images.githubusercontent.com/81973766/124315341-16320c00-db74-11eb-9321-205648276604.png)
-![PongScored](https://user-images.githubusercontent.com/81973766/124316212-89884d80-db75-11eb-9fc8-8983b0e11ebb.png)
+![CALCPONG_screenshot](https://github.com/user-attachments/assets/79e6526a-3e1d-4440-a300-fd98c262c5f9)
+![CALCPONG_video](https://github.com/user-attachments/assets/a0261b6a-3710-45ad-9967-d3c5e96d2946)
 
 # BUILDING
 If you would like to build CALCPONG yourself, be sure you have the latest LLVM [CE C Toolchain](https://github.com/CE-Programming/toolchain/releases/latest) installed.
 
-Then simply clone or download the repository from above, and run the following commands:
+Simply clone or download the repository from above. 
+Don't forget to copy one of the makefiles that belongs to your OS (from the makefiles folder) to the root of the project.
+Finally run the following commands to build the project:
 
     make gfx
     make
