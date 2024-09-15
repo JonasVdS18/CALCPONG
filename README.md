@@ -12,7 +12,7 @@ You are always free to add new features.
 
 # SCREENSHOTS
 ![CALCPONG_screenshot](https://github.com/user-attachments/assets/79e6526a-3e1d-4440-a300-fd98c262c5f9)
-![CALCPONG_video](https://github.com/user-attachments/assets/a0261b6a-3710-45ad-9967-d3c5e96d2946)
+![CALCPONG_video2](https://github.com/user-attachments/assets/fe9aaba1-5226-472a-8f0d-98b4d272da68)
 
 # BUILDING
 If you would like to build CALCPONG yourself, be sure you have the latest LLVM [CE C Toolchain](https://github.com/CE-Programming/toolchain/releases/latest) installed.
