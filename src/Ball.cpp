@@ -1,6 +1,7 @@
 #include <tice.h>
 #include <graphx.h>
 #include <keypadc.h>
+#include <sys/util.h>
 #include "gfx/gfx.h"
 #include "Player.hpp"
 #include "Ball.hpp"
@@ -8,24 +9,52 @@
 
 Ball::Ball(gfx_sprite_t* sprite, Player* player, Player* playerTwo)//constructor definition
 {
+    /*generates a random direction for the ball to go in*/
+    int x = randInt(7,10);
+    int y = randInt(1,10);
+    float length = x*x + y*y;
+    float vx = ((float)x/length)*BALL_SPEED;
+    float vy = ((float)y/length)*BALL_SPEED;
+    if(random() % 2 == 1)
+    {
+        vx = -vx;
+    }
+    if(random() % 2 == 1)
+    {
+        vy = -vy;
+    }
+
     /*assign values to all the variables*/
     this->x = LCD_MIDDLE_X - BALL_HEIGHT/2;
     this->y = LCD_MIDDLE_Y - BALL_WIDTH/2;
-    this->vx = -4.0f;
-    this->vy = 0.0f;
+    this->vx = vx;
+    this->vy = vy;
     this->sprite = sprite;
     this->player = player;
     this->playerTwo = playerTwo;
     this->collision = NONE;
 }
 
-void Ball:: Reset()//function definition
+void Ball::Reset()//function definition
 {
     /*reset the position and velocity variables*/
     x = LCD_MIDDLE_X - BALL_HEIGHT/2;
     y = LCD_MIDDLE_Y - BALL_WIDTH/2;
-    vx = -4.0f;
-    vy = 0.0f;
+    /*generates a random direction for the ball to go in*/
+    int x = randInt(7,10);
+    int y = randInt(1,10);
+    float length = x*x + y*y;
+    vx = ((float)x/length)*BALL_SPEED;
+    vy = ((float)y/length)*BALL_SPEED;
+    if(random() % 2 == 1)
+    {
+        vx = -vx;
+    }
+    if(random() % 2 == 1)
+    {
+        vy = -vy;
+    }
+
     collision = NONE;
 }
 
@@ -44,11 +73,10 @@ char Ball::CheckBallCollisions()//function definition
     }else if (y <= 0)
     {
         return WALL_UP;
-    }else if(y >= player->y - BALL_HEIGHT && y <= player->y + PLAYER_HEIGHT && x <= player->x + PLAYER_WIDTH)
+    }else if(((player->y - BALL_HEIGHT) <= y && y <= (player->y + PLAYER_HEIGHT)) && ((player->x - BALL_WIDTH) <= x && x <= (player->x + PLAYER_WIDTH)))
     {
         return PLAYER_COLLISION;
-    }
-    else if(y >= playerTwo->y - BALL_HEIGHT && y <= playerTwo->y + PLAYER_HEIGHT && x >= playerTwo->x - BALL_WIDTH)
+    }else if(((playerTwo->y - BALL_HEIGHT) <= y && y <= (playerTwo->y + PLAYER_HEIGHT)) && ((playerTwo->x - BALL_WIDTH) <= x && x <= (playerTwo->x + PLAYER_WIDTH)))
     {
         return PLAYER_TWO_COLLISION;
     }else

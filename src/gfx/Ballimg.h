@@ -5,11 +5,11 @@
 extern "C" {
 #endif
 
-#define Ballimg_width 16
-#define Ballimg_height 16
-#define Ballimg_size 258
+#define Ballimg_width 8
+#define Ballimg_height 8
+#define Ballimg_size 66
 #define Ballimg ((gfx_sprite_t*)Ballimg_data)
-extern unsigned char Ballimg_data[258];
+extern unsigned char Ballimg_data[66];
 
 #ifdef __cplusplus
 }
