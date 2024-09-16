@@ -1,9 +1,0 @@
-global_palette.h
-global_palette.c
-Paddle.h
-Paddle.c
-Ballimg.h
-Ballimg.c
-Line.h
-Line.c
-gfx.h
