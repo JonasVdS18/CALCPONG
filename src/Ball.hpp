@@ -1,29 +1,29 @@
 #pragma once
 
-#include <tice.h>
+#include "Defines.hpp"
+#include "Player.hpp"
+#include "gfx/gfx.h"
 #include <graphx.h>
 #include <keypadc.h>
-#include "gfx/gfx.h"
-#include "Player.hpp"
-#include "Defines.hpp"
+#include <tice.h>
 
 class Ball
 {
-public:
-    float x, y;//the x and y coordinate of the ball
-    float vx, vy;//the x and y velocity of the ball
-    char collision;//a variable that stores what the ball just collided with
+  public:
+    float x, y;     // the x and y coordinate of the ball
+    float vx, vy;   // the x and y velocity of the ball
+    char collision; // a variable that stores what the ball just collided with
 
-    gfx_sprite_t* sprite;//the ball sprite
+    gfx_sprite_t* sprite; // the ball sprite
 
-    Player* player;//reference to the player
-    Player* playerTwo;//reference to the second player
+    Player* player;    // reference to the player
+    Player* playerTwo; // reference to the second player
 
-    Ball(gfx_sprite_t* sprite, Player* player, Player* playerTwo);//constructor
+    Ball(gfx_sprite_t* sprite, Player* player, Player* playerTwo); // constructor
 
-    void reset();
+    void reset(void);
 
-    char CheckBallCollisions();
+    char CheckBallCollisions(void);
 
-    void move();
+    void move(void);
 };

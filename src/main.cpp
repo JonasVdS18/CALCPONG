@@ -1,19 +1,19 @@
-#include <tice.h>
 #include <graphx.h>
 #include <keypadc.h>
+#include <tice.h>
 
-#include "gfx/gfx.h"
-#include "Defines.hpp"
 #include "Ball.hpp"
+#include "Defines.hpp"
 #include "Player.hpp"
+#include "gfx/gfx.h"
 
-Player* player;//declares the Player
-Player* playerTwo;//declares the second Player
-Ball* ball;//declares the Ball
+Player* player;    // declares the Player
+Player* playerTwo; // declares the second Player
+Ball* ball;        // declares the Ball
 
-unsigned int scoreLeftPlayer;//the score of the player on the left side of the screen
-unsigned int scoreRightPlayer;//the score of the player on the right side of the screen
-
+unsigned int scoreLeftPlayer;  // the score of the player on the left side of the screen
+unsigned int scoreRightPlayer; // the score of the player on the right side of
+                               // the screen
 
 void setup()
 {
@@ -27,11 +27,11 @@ void setup()
     gfx_SetPalette(global_palette, sizeof_global_palette, 0);
 
     gfx_SetTextFGColor(3);
-    gfx_SetTextBGColor(1);
+    gfx_SetTextBGColor(0);
     gfx_SetMonospaceFont(0);
     gfx_SetTextScale(2, 2);
 
-    gfx_SetTransparentColor(0);
+    gfx_SetTransparentColor(1);
 
     /*sets up the score count*/
     scoreLeftPlayer = 0;
@@ -47,26 +47,27 @@ void restart()
 }
 
 void draw()
-{   
-    gfx_FillScreen(1);//makes the screen totaly white
+{
+    gfx_ZeroScreen(); // makes the screen totaly white
     if (ball->collision == WALL_RIGHT)
     {
-        //gfx_PrintStringXY("THE PLAYER ON THE LEFT SCORED!", 55, LCD_MIDDLE_Y);
-        delay(250);//waits two seconds
-        gfx_SwapDraw();//swaps the buffer so the stuff we just drew to it will be displayed on the screen
+        delay(250);     // waits two seconds
+        gfx_SwapDraw(); // swaps the buffer so the stuff we just drew to
+                        // it will be displayed on the screen
         restart();
         scoreLeftPlayer++;
         return;
-    }else if(ball->collision == WALL_LEFT)
+    }
+    else if (ball->collision == WALL_LEFT)
     {
-        //gfx_PrintStringXY("THE PLAYER ON THE RIGHT SCORED!", 55, LCD_MIDDLE_Y);
-        delay(250);//waits two seconds
-        gfx_SwapDraw();//swaps the buffer so the stuff we just drew to it will be displayed on the screen
+        delay(250);     // waits two seconds
+        gfx_SwapDraw(); // swaps the buffer so the stuff we just drew to
+                        // it will be displayed on the screen
         restart();
         scoreRightPlayer++;
         return;
     }
-    gfx_TransparentSprite_NoClip(Line, LCD_MIDDLE_X - LINE_WIDTH/2, 0);
+    gfx_TransparentSprite_NoClip(Line, LCD_MIDDLE_X - LINE_WIDTH / 2, 0);
     gfx_Sprite_NoClip(player->sprite, player->x, player->y);
     gfx_Sprite_NoClip(playerTwo->sprite, playerTwo->x, playerTwo->y);
     gfx_Sprite(ball->sprite, ball->x, ball->y);
@@ -75,27 +76,34 @@ void draw()
     gfx_SetTextXY(205, 5);
     gfx_PrintUInt(scoreRightPlayer, 4);
 
-    gfx_SwapDraw();//swaps the buffer so the stuff we just drew to it will be displayed on the screen
+    gfx_SwapDraw(); // swaps the buffer so the stuff we just drew to it will
+                    // be displayed on the screen
 }
 
 char modeSelect()
 {
-    gfx_FillScreen(1);//makes the screen totaly white
-    gfx_PrintStringXY("SELECT 1", 100, LCD_MIDDLE_Y - 20);//prints the string to the screen
-    gfx_PrintStringXY("OR 2 PLAYERS", 70, LCD_MIDDLE_Y + 20);//prints the string to the screen
+    gfx_ZeroScreen(); // makes the screen totaly white
+    gfx_PrintStringXY("SELECT 1", 100,
+                      LCD_MIDDLE_Y - 20); // prints the string to the screen
+    gfx_PrintStringXY("OR 2 PLAYERS", 70,
+                      LCD_MIDDLE_Y + 20); // prints the string to the screen
     gfx_SwapDraw();
-    while(kb_Data[1] != kb_Del)
+    while (kb_Data[1] != kb_Del)
     {
-        kb_Scan();//scans the keyboard
-        kb_key_t key1 = kb_Data[3];//part of the keyboard data that stores if 1 is pressed (look at table in defenition if kb_Data)
-        kb_key_t key2 = kb_Data[4];//part of the keyboard data that stores if 2 is pressed (look at table in defenition if kb_Data)
-        if(key1 == kb_1)
+        kb_Scan();                  // scans the keyboard
+        kb_key_t key1 = kb_Data[3]; // part of the keyboard data that
+                                    // stores if 1 is pressed (look at
+                                    // table in defenition if kb_Data)
+        kb_key_t key2 = kb_Data[4]; // part of the keyboard data that
+                                    // stores if 2 is pressed (look at
+                                    // table in defenition if kb_Data)
+        if (key1 == kb_1)
         {
-            return SINGLEPLAYER;//return 1 if the player types 1
+            return SINGLEPLAYER; // return 1 if the player types 1
         }
-        if(key2 == kb_2)
+        if (key2 == kb_2)
         {
-            return MULTIPLAYER;//return 2 if the player types 2
+            return MULTIPLAYER; // return 2 if the player types 2
         }
     }
     return QUIT;
@@ -106,33 +114,38 @@ int main(void)
     setup();
     char mode = 0;
 
-    while (true)//run this code when the delete key isn't pressed
+    while (true) // run this code when the delete key isn't pressed
     {
         mode = modeSelect();
-        if(mode == QUIT)
+        if (mode == QUIT)
         {
             break;
         }
 
-        delay(1000);//wait a second
-        player = new Player(Paddle, PLAYER_WIDTH_OFFSET, PLAYER_Y, PLAYER_ONE_INDEX);//creates the player
-        playerTwo = new Player(Paddle, LCD_WIDTH - PLAYER_WIDTH - PLAYER_WIDTH_OFFSET, PLAYER_Y, PLAYER_TWO_INDEX);//creates the second player
-        ball = new Ball(Ballimg, player, playerTwo);//creates an instance of the ball
+        delay(1000); // wait a second
+        player = new Player(Paddle, PLAYER_WIDTH_OFFSET, PLAYER_Y,
+                            PLAYER_ONE_INDEX); // creates the player
+        playerTwo = new Player(Paddle, LCD_WIDTH - PLAYER_WIDTH - PLAYER_WIDTH_OFFSET, PLAYER_Y,
+                               PLAYER_TWO_INDEX); // creates the second player
+        ball = new Ball(Ballimg, player,
+                        playerTwo); // creates an instance of the ball
 
-        while (kb_Data[1] != kb_Del)//run this code when the delete key isn't pressed
+        while (kb_Data[1] != kb_Del) // run this code when the delete key isn't pressed
         {
-            if(mode == SINGLEPLAYER)
+            if (mode == SINGLEPLAYER)
             {
-                if((ball->y + BALL_HEIGHT/2) > (player->y + PLAYER_HEIGHT/2))//the ball is lower than the opponent
+                if ((ball->y + BALL_HEIGHT / 2) > (player->y + PLAYER_HEIGHT / 2)) // the ball is lower
+                                                                                   // than the opponent
                 {
                     player->move(DOWN);
-
-                }else if((ball->y + BALL_HEIGHT/2) < (player->y + PLAYER_HEIGHT/2))//the ball is higher than the opponent
+                }
+                else if ((ball->y + BALL_HEIGHT / 2) < (player->y + PLAYER_HEIGHT / 2)) // the ball is higher than
+                                                                                        // the opponent
                 {
                     player->move(UP);
                 }
-
-            }else//if in Multiplayer mode
+            }
+            else // if in Multiplayer mode
             {
                 playerTwo->move();
             }

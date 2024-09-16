@@ -2,4 +2,5 @@ bin/
 obj/
 src/gfx/*.8xv
 .vscode/
-makefile
+/makefile
+.DS_Store

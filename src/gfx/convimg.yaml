@@ -1,8 +1,8 @@
 palettes:
   - name: global_palette
     fixed-entries:
-      - color: {index: 0, r: 255, g: 0, b: 128}
-      - color: {index: 1, r: 255, g: 255, b: 255}
+      - color: {index: 0, r: 255, g: 255, b: 255}
+      - color: {index: 1, r: 255, g: 0, b: 128}
       - color: {index: 2, r: 0, g: 0, b: 0}
       - color: {index: 3, r: 182, g: 182, b: 182}
     images: automatic
@@ -10,7 +10,7 @@ palettes:
 converts:
   - name: sprites
     palette: global_palette
-    transparent-color-index: 0
+    transparent-color-index: 1
     images:
       - Paddle.png
       - Ballimg.png
