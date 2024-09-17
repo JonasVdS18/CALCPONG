@@ -7,12 +7,13 @@
 #include <sys/util.h>
 #include <tice.h>
 
-Ball::Ball(gfx_sprite_t* sprite, Player* player, Player* playerTwo) // constructor definition
+Ball::Ball(gfx_sprite_t* sprite, Player* player, Player* playerTwo)
 {
-    /*generates a random direction for the ball to go in*/
+    /*generates a random direction for the ball to go in by generating a random x and y coordinate for the velocity
+     * vector*/
     int x = randInt(7, 10);
     int y = randInt(1, 10);
-    float length = x * x + y * y;
+    float length = x * x + y * y; // used for normalizing the generated vector
     float vx = ((float)x / length) * BALL_SPEED;
     float vy = ((float)y / length) * BALL_SPEED;
     if (random() % 2 == 1)
@@ -24,7 +25,6 @@ Ball::Ball(gfx_sprite_t* sprite, Player* player, Player* playerTwo) // construct
         vy = -vy;
     }
 
-    /*assign values to all the variables*/
     this->x = LCD_MIDDLE_X - BALL_HEIGHT / 2;
     this->y = LCD_MIDDLE_Y - BALL_WIDTH / 2;
     this->vx = vx;
@@ -35,15 +35,15 @@ Ball::Ball(gfx_sprite_t* sprite, Player* player, Player* playerTwo) // construct
     this->collision = NONE;
 }
 
-void Ball::reset() // function definition
+void Ball::reset()
 {
-    /*reset the position and velocity variables*/
     x = LCD_MIDDLE_X - BALL_HEIGHT / 2;
     y = LCD_MIDDLE_Y - BALL_WIDTH / 2;
-    /*generates a random direction for the ball to go in*/
+    /*generates a random direction for the ball to go in by generating a random x and y coordinate for the velocity
+     * vector*/
     int x = randInt(7, 10);
     int y = randInt(1, 10);
-    float length = x * x + y * y;
+    float length = x * x + y * y; // used for normalizing the generated vector
     vx = ((float)x / length) * BALL_SPEED;
     vy = ((float)y / length) * BALL_SPEED;
     if (random() % 2 == 1)
@@ -58,9 +58,9 @@ void Ball::reset() // function definition
     collision = NONE;
 }
 
-char Ball::CheckBallCollisions() // function definition
+/*check for collisions and return a char to indicate what we collided with*/
+char Ball::CheckBallCollisions()
 {
-    /*check for collisions and return a char to indicate what we collided with*/
     if (x >= LCD_WIDTH - BALL_WIDTH)
     {
         return WALL_RIGHT;
@@ -93,9 +93,9 @@ char Ball::CheckBallCollisions() // function definition
     }
 }
 
-void Ball::move() // function definition
+void Ball::move()
 {
-    collision = CheckBallCollisions(); // checks if there is a collision
+    collision = CheckBallCollisions();
     if (collision == WALL_DOWN || collision == WALL_UP)
     {
         vy = -vy; // makes it bounce

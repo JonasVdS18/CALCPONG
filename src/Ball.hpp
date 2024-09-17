@@ -16,8 +16,8 @@ class Ball
 
     gfx_sprite_t* sprite; // the ball sprite
 
-    Player* player;    // reference to the player
-    Player* playerTwo; // reference to the second player
+    Player* player;    // pointer to the player
+    Player* playerTwo; // pointer to the second player
 
     Ball(gfx_sprite_t* sprite, Player* player, Player* playerTwo); // constructor
 

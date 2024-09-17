@@ -5,9 +5,8 @@
 #include <keypadc.h>
 #include <tice.h>
 
-Player::Player(gfx_sprite_t* sprite, int x, int y, char playerIndex) // constructor definition
+Player::Player(gfx_sprite_t* sprite, int x, int y, char playerIndex)
 {
-    /*assign values to all the variables*/
     this->x = x;
     this->y = y;
     this->sx = x;
@@ -16,12 +15,12 @@ Player::Player(gfx_sprite_t* sprite, int x, int y, char playerIndex) // construc
     this->sprite = sprite;
 }
 
-void Player::reset() // function definition
+void Player::reset()
 {
     x = sx; // sets the x coordinate to the x start coordinate
     y = sy; // sets the y coordinate to the y start coordinate
 }
-void Player::move() // function definition
+void Player::move()
 {
     if (playerIndex == PLAYER_TWO_INDEX) // if the player is the second player
     {

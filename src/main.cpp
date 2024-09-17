@@ -7,13 +7,12 @@
 #include "Player.hpp"
 #include "gfx/gfx.h"
 
-Player* player;    // declares the Player
-Player* playerTwo; // declares the second Player
-Ball* ball;        // declares the Ball
+Player* player;    // pointer to the Player
+Player* playerTwo; // pointer to the second Player
+Ball* ball;        // pointer to the Ball
 
 unsigned int scoreLeftPlayer;  // the score of the player on the left side of the screen
-unsigned int scoreRightPlayer; // the score of the player on the right side of
-                               // the screen
+unsigned int scoreRightPlayer; // the score of the player on the right side of the screen
 
 void setup()
 {
@@ -40,7 +39,6 @@ void setup()
 
 void restart()
 {
-    /*resets the game*/
     player->reset();
     playerTwo->reset();
     ball->reset();
@@ -51,7 +49,7 @@ void draw()
     gfx_ZeroScreen(); // makes the screen totaly white
     if (ball->collision == WALL_RIGHT)
     {
-        delay(250);     // waits two seconds
+        delay(250);
         gfx_SwapDraw(); // swaps the buffer so the stuff we just drew to
                         // it will be displayed on the screen
         restart();
@@ -60,7 +58,7 @@ void draw()
     }
     else if (ball->collision == WALL_LEFT)
     {
-        delay(250);     // waits two seconds
+        delay(250);
         gfx_SwapDraw(); // swaps the buffer so the stuff we just drew to
                         // it will be displayed on the screen
         restart();
@@ -76,27 +74,24 @@ void draw()
     gfx_SetTextXY(205, 5);
     gfx_PrintUInt(scoreRightPlayer, 4);
 
-    gfx_SwapDraw(); // swaps the buffer so the stuff we just drew to it will
-                    // be displayed on the screen
+    gfx_SwapDraw(); // swaps the buffer so the stuff we just drew to it will be displayed on the screen
 }
 
 char modeSelect()
 {
     gfx_ZeroScreen(); // makes the screen totaly white
     gfx_PrintStringXY("SELECT 1", 100,
-                      LCD_MIDDLE_Y - 20); // prints the string to the screen
+                      LCD_MIDDLE_Y - 10); // prints the string to the screen
     gfx_PrintStringXY("OR 2 PLAYERS", 70,
-                      LCD_MIDDLE_Y + 20); // prints the string to the screen
+                      LCD_MIDDLE_Y + 10); // prints the string to the screen
     gfx_SwapDraw();
     while (kb_Data[1] != kb_Del)
     {
         kb_Scan();                  // scans the keyboard
-        kb_key_t key1 = kb_Data[3]; // part of the keyboard data that
-                                    // stores if 1 is pressed (look at
-                                    // table in defenition if kb_Data)
-        kb_key_t key2 = kb_Data[4]; // part of the keyboard data that
-                                    // stores if 2 is pressed (look at
-                                    // table in defenition if kb_Data)
+        kb_key_t key1 = kb_Data[3]; // part of the keyboard data that stores if 1 is pressed (look at table in
+                                    // defenition if kb_Data)
+        kb_key_t key2 = kb_Data[4]; // part of the keyboard data that stores if 2 is pressed (look at table in
+                                    // defenition if kb_Data)
         if (key1 == kb_1)
         {
             return SINGLEPLAYER; // return 1 if the player types 1
@@ -122,11 +117,15 @@ int main(void)
             break;
         }
 
+        /*start up a new game*/
+
         delay(1000); // wait a second
         player = new Player(Paddle, PLAYER_WIDTH_OFFSET, PLAYER_Y,
                             PLAYER_ONE_INDEX); // creates the player
+
         playerTwo = new Player(Paddle, LCD_WIDTH - PLAYER_WIDTH - PLAYER_WIDTH_OFFSET, PLAYER_Y,
                                PLAYER_TWO_INDEX); // creates the second player
+
         ball = new Ball(Ballimg, player,
                         playerTwo); // creates an instance of the ball
 
@@ -147,7 +146,7 @@ int main(void)
             }
             else // if in Multiplayer mode
             {
-                playerTwo->move();
+                player->move();
             }
             playerTwo->move();
             ball->move();
@@ -160,8 +159,6 @@ int main(void)
         delete playerTwo;
         delete ball;
     }
-
-    /*run this code when the delete key is pressed*/
     gfx_End();
 
     return 0;
