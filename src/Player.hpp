@@ -1,9 +1,11 @@
-#pragma once
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
 
 #include "gfx/gfx.h"
 #include <graphx.h>
 #include <keypadc.h>
-#include <tice.h>
+
+class Ball;
 
 class Player
 {
@@ -14,11 +16,12 @@ class Player
     int x, y;             // x and y coordinates of the player
     gfx_sprite_t* sprite; // the player sprite
 
-    /*Definitions*/
-    Player(gfx_sprite_t* sprite, int x, int y, char playerIndex); // constructor
+    Ball* ball;
 
-    void reset(void);
+    Player(gfx_sprite_t* sprite, int x, int y, char playerIndex, Ball* ball); // constructor
 
     void move(void);
     void move(char direction); // move function for 1 player opponent
 };
+
+#endif

@@ -1,6 +1,7 @@
 #include <graphx.h>
 #include <keypadc.h>
 #include <tice.h>
+#include <time.h>
 
 #include "Ball.hpp"
 #include "Defines.hpp"
@@ -37,34 +38,14 @@ void setup()
     scoreRightPlayer = 0;
 }
 
-void restart()
+void respawnBall()
 {
-    player->reset();
-    playerTwo->reset();
-    ball->reset();
+    ball->respawn();
 }
 
 void draw()
 {
     gfx_ZeroScreen(); // makes the screen totaly white
-    if (ball->collision == WALL_RIGHT)
-    {
-        delay(250);
-        gfx_SwapDraw(); // swaps the buffer so the stuff we just drew to
-                        // it will be displayed on the screen
-        restart();
-        scoreLeftPlayer++;
-        return;
-    }
-    else if (ball->collision == WALL_LEFT)
-    {
-        delay(250);
-        gfx_SwapDraw(); // swaps the buffer so the stuff we just drew to
-                        // it will be displayed on the screen
-        restart();
-        scoreRightPlayer++;
-        return;
-    }
     gfx_TransparentSprite_NoClip(Line, LCD_MIDDLE_X - LINE_WIDTH / 2, 0);
     gfx_Sprite_NoClip(player->sprite, player->x, player->y);
     gfx_Sprite_NoClip(playerTwo->sprite, playerTwo->x, playerTwo->y);
@@ -111,6 +92,8 @@ int main(void)
 
     while (true) // run this code when the delete key isn't pressed
     {
+        bool scored = false;
+        time_t timeOfScore = clock();
         mode = modeSelect();
         if (mode == QUIT)
         {
@@ -119,18 +102,19 @@ int main(void)
 
         /*start up a new game*/
 
-        delay(1000); // wait a second
-        player = new Player(Paddle, PLAYER_WIDTH_OFFSET, PLAYER_Y,
-                            PLAYER_ONE_INDEX); // creates the player
+        delay(1000);                                                                        // wait a second
+        player = new Player(Paddle, PLAYER_WIDTH_OFFSET, PLAYER_Y, PLAYER_ONE_INDEX, ball); // creates the player
 
-        playerTwo = new Player(Paddle, LCD_WIDTH - PLAYER_WIDTH - PLAYER_WIDTH_OFFSET, PLAYER_Y,
-                               PLAYER_TWO_INDEX); // creates the second player
+        playerTwo = new Player(Paddle, LCD_WIDTH - PLAYER_WIDTH - PLAYER_WIDTH_OFFSET, PLAYER_Y, PLAYER_TWO_INDEX,
+                               ball); // creates the second player
 
         ball = new Ball(Ballimg, player,
                         playerTwo); // creates an instance of the ball
 
         while (kb_Data[1] != kb_Del) // run this code when the delete key isn't pressed
         {
+            /*move every object*/
+
             if (mode == SINGLEPLAYER)
             {
                 if ((ball->y + BALL_HEIGHT / 2) > (player->y + PLAYER_HEIGHT / 2)) // the ball is lower
@@ -150,9 +134,34 @@ int main(void)
             }
             playerTwo->move();
             ball->move();
+
+            /*check collisions only if there hasn't been scored yet (since ball must be on screen then)*/
+            if (!scored)
+            {
+                if (ball->collision == WALL_RIGHT)
+                {
+                    timeOfScore = clock();
+                    scored = true;
+                    scoreLeftPlayer++;
+                }
+                else if (ball->collision == WALL_LEFT)
+                {
+                    timeOfScore = clock();
+                    scored = true;
+                    scoreRightPlayer++;
+                }
+            }
+            else // a point has been scored
+            {
+                if ((clock() - timeOfScore) >= BALL_RESPAWN_TIME_SEC * CLOCKS_PER_SEC)
+                {
+                    scored = false;
+                    respawnBall();
+                }
+            }
             draw();
         }
-        delay(500);
+        delay(500); // here so the player doesn't skip the main menu when pressing del slowly
         kb_Scan();
 
         delete player;

@@ -11,34 +11,16 @@ Ball::Ball(gfx_sprite_t* sprite, Player* player, Player* playerTwo)
 {
     /*generates a random direction for the ball to go in by generating a random x and y coordinate for the velocity
      * vector*/
-    int x = randInt(7, 10);
-    int y = randInt(1, 10);
-    float length = x * x + y * y; // used for normalizing the generated vector
-    float vx = ((float)x / length) * BALL_SPEED;
-    float vy = ((float)y / length) * BALL_SPEED;
-    if (random() % 2 == 1)
-    {
-        vx = -vx;
-    }
-    if (random() % 2 == 1)
-    {
-        vy = -vy;
-    }
-
-    this->x = LCD_MIDDLE_X - BALL_HEIGHT / 2;
-    this->y = LCD_MIDDLE_Y - BALL_WIDTH / 2;
-    this->vx = vx;
-    this->vy = vy;
+    this->respawn();
     this->sprite = sprite;
     this->player = player;
     this->playerTwo = playerTwo;
-    this->collision = NONE;
 }
 
-void Ball::reset()
+void Ball::respawn()
 {
     x = LCD_MIDDLE_X - BALL_HEIGHT / 2;
-    y = LCD_MIDDLE_Y - BALL_WIDTH / 2;
+    y = randInt(20, LCD_HEIGHT - 20);
     /*generates a random direction for the ball to go in by generating a random x and y coordinate for the velocity
      * vector*/
     int x = randInt(7, 10);
@@ -77,13 +59,13 @@ char Ball::CheckBallCollisions()
     {
         return WALL_UP;
     }
-    else if (((player->y - BALL_HEIGHT) <= y && y <= (player->y + PLAYER_HEIGHT)) &&
-             ((player->x - BALL_WIDTH) <= x && x <= (player->x + PLAYER_WIDTH)))
+    else if (gfx_CheckRectangleHotspot(player->x, player->y, PLAYER_WIDTH, PLAYER_HEIGHT, x, y, BALL_WIDTH,
+                                       BALL_HEIGHT))
     {
         return PLAYER_COLLISION;
     }
-    else if (((playerTwo->y - BALL_HEIGHT) <= y && y <= (playerTwo->y + PLAYER_HEIGHT)) &&
-             ((playerTwo->x - BALL_WIDTH) <= x && x <= (playerTwo->x + PLAYER_WIDTH)))
+    else if (gfx_CheckRectangleHotspot(playerTwo->x, playerTwo->y, PLAYER_WIDTH, PLAYER_HEIGHT, x, y, BALL_WIDTH,
+                                       BALL_HEIGHT))
     {
         return PLAYER_TWO_COLLISION;
     }
@@ -102,14 +84,15 @@ void Ball::move()
     }
     if (collision == PLAYER_COLLISION)
     {
-        if ((player->y + PLAYER_MIDDLE_Y) - (y + BALL_MIDDLE_Y) < 0) // Ball hits Player below the middle
+        if ((player->y + PLAYER_MIDDLE_Y_OFFSET) - (y + BALL_MIDDLE_Y_OFFSET) < 0) // Ball hits Player below the middle
         {
-            vy = ((player->y + PLAYER_MIDDLE_Y) - (y + BALL_MIDDLE_Y)) /
+            vy = ((player->y + PLAYER_MIDDLE_Y_OFFSET) - (y + BALL_MIDDLE_Y_OFFSET)) /
                  8.0f; // sets a new y velocity for the ball depending on where the Ball hits the player
         }
-        else if ((player->y + PLAYER_MIDDLE_Y) - (y + BALL_MIDDLE_Y) > 0) // Ball hits Player above the middle
+        else if ((player->y + PLAYER_MIDDLE_Y_OFFSET) - (y + BALL_MIDDLE_Y_OFFSET) >
+                 0) // Ball hits Player above the middle
         {
-            vy = ((player->y + PLAYER_MIDDLE_Y) - (y + BALL_MIDDLE_Y)) /
+            vy = ((player->y + PLAYER_MIDDLE_Y_OFFSET) - (y + BALL_MIDDLE_Y_OFFSET)) /
                  8.0f; // sets a new y velocity for the ball depending on where the Ball hits the player
         }
 
@@ -118,14 +101,16 @@ void Ball::move()
     }
     if (collision == PLAYER_TWO_COLLISION)
     {
-        if ((playerTwo->y + PLAYER_MIDDLE_Y) - (y + BALL_MIDDLE_Y) < 0) // Ball hits Player below the middle
+        if ((playerTwo->y + PLAYER_MIDDLE_Y_OFFSET) - (y + BALL_MIDDLE_Y_OFFSET) <
+            0) // Ball hits Player below the middle
         {
-            vy = ((playerTwo->y + PLAYER_MIDDLE_Y) - (y + BALL_MIDDLE_Y)) /
+            vy = ((playerTwo->y + PLAYER_MIDDLE_Y_OFFSET) - (y + BALL_MIDDLE_Y_OFFSET)) /
                  8.0f; // sets a new y velocity for the ball depending on where the Ball hits the player
         }
-        else if ((playerTwo->y + PLAYER_MIDDLE_Y) - (y + BALL_MIDDLE_Y) > 0) // Ball hits Player above the middle
+        else if ((playerTwo->y + PLAYER_MIDDLE_Y_OFFSET) - (y + BALL_MIDDLE_Y_OFFSET) >
+                 0) // Ball hits Player above the middle
         {
-            vy = ((playerTwo->y + PLAYER_MIDDLE_Y) - (y + BALL_MIDDLE_Y)) /
+            vy = ((playerTwo->y + PLAYER_MIDDLE_Y_OFFSET) - (y + BALL_MIDDLE_Y_OFFSET)) /
                  8.0f; // sets a new y velocity for the ball depending on where the Ball hits the player
         }
 

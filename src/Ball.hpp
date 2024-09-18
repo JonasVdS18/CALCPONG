@@ -1,11 +1,10 @@
-#pragma once
+#ifndef BALL_HPP
+#define BALL_HPP
 
-#include "Defines.hpp"
-#include "Player.hpp"
 #include "gfx/gfx.h"
 #include <graphx.h>
-#include <keypadc.h>
-#include <tice.h>
+
+class Player;
 
 class Ball
 {
@@ -21,9 +20,11 @@ class Ball
 
     Ball(gfx_sprite_t* sprite, Player* player, Player* playerTwo); // constructor
 
-    void reset(void);
+    void respawn(void);
 
     char CheckBallCollisions(void);
 
     void move(void);
 };
+
+#endif

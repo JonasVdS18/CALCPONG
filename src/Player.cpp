@@ -1,11 +1,12 @@
 #include "Player.hpp"
+#include "Ball.hpp"
 #include "Defines.hpp"
 #include "gfx/gfx.h"
 #include <graphx.h>
 #include <keypadc.h>
 #include <tice.h>
 
-Player::Player(gfx_sprite_t* sprite, int x, int y, char playerIndex)
+Player::Player(gfx_sprite_t* sprite, int x, int y, char playerIndex, Ball* ball)
 {
     this->x = x;
     this->y = y;
@@ -13,13 +14,9 @@ Player::Player(gfx_sprite_t* sprite, int x, int y, char playerIndex)
     this->sy = y;
     this->playerIndex = playerIndex;
     this->sprite = sprite;
+    this->ball = ball;
 }
 
-void Player::reset()
-{
-    x = sx; // sets the x coordinate to the x start coordinate
-    y = sy; // sets the y coordinate to the y start coordinate
-}
 void Player::move()
 {
     if (playerIndex == PLAYER_TWO_INDEX) // if the player is the second player
@@ -32,13 +29,23 @@ void Player::move()
         case kb_Up: // if the up(arrow) key is pressed
             if (y > 0)
             {
-                y -= PLAYER_SPEED; // subtract the player speed from the player y position to move up
+                int newy = y - PLAYER_SPEED; // subtract the player speed from the player y position to move up
+                if (!gfx_CheckRectangleHotspot(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, ball->x, ball->y, BALL_WIDTH,
+                                               BALL_HEIGHT)) // check for collisions with ball
+                {
+                    y = newy;
+                }
             }
             break;
         case kb_Down: // if the Down(arrow) key is pressed
             if (y <= MAX_PLAYER_Y)
             {
-                y += PLAYER_SPEED; // adds the player speed to the player y position to move down
+                int newy = y + PLAYER_SPEED; // adds the player speed to the player y position to move down
+                if (!gfx_CheckRectangleHotspot(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, ball->x, ball->y, BALL_WIDTH,
+                                               BALL_HEIGHT)) // check for collisions with ball
+                {
+                    y = newy;
+                }
             }
             break;
         default:
@@ -51,13 +58,21 @@ void Player::move()
         kb_Scan();
         if (kb_Data[1] == kb_2nd && y > 0) // if the 2nd key is pressed
         {
-            y -= PLAYER_SPEED; // subtract the player speed from the player y position to move up
-            return;
+            int newy = y - PLAYER_SPEED; // subtract the player speed from the player y position to move up
+            if (!gfx_CheckRectangleHotspot(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, ball->x, ball->y, BALL_WIDTH,
+                                           BALL_HEIGHT)) // check for collisions with ball
+            {
+                y = newy;
+            }
         }
         if (kb_Data[2] == kb_Alpha && y <= MAX_PLAYER_Y) // if the Alpha key is pressed
         {
-            y += PLAYER_SPEED; // adds the player speed to the player y position to move down
-            return;
+            int newy = y + PLAYER_SPEED; // adds the player speed to the player y position to move down
+            if (!gfx_CheckRectangleHotspot(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, ball->x, ball->y, BALL_WIDTH,
+                                           BALL_HEIGHT)) // check for collisions with ball
+            {
+                y = newy;
+            }
         }
     }
 }
@@ -69,7 +84,12 @@ void Player::move(char direction) // function definition
     case UP:
         if (y > 0)
         {
-            y -= PLAYER_SPEED; // subtract the player speed from the player y position to move up
+            int newy = y - PLAYER_SPEED; // subtract the player speed from the player y position to move up
+            if (!gfx_CheckRectangleHotspot(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, ball->x, ball->y, BALL_WIDTH,
+                                           BALL_HEIGHT)) // check for collisions with ball
+            {
+                y = newy;
+            }
         }
         break;
 
@@ -77,7 +97,12 @@ void Player::move(char direction) // function definition
 
         if (y <= MAX_PLAYER_Y)
         {
-            y += PLAYER_SPEED; // adds the player speed to the player y position to move down
+            int newy = y + PLAYER_SPEED; // adds the player speed to the player y position to move down
+            if (!gfx_CheckRectangleHotspot(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, ball->x, ball->y, BALL_WIDTH,
+                                           BALL_HEIGHT)) // check for collisions with ball
+            {
+                y = newy;
+            }
         }
         break;
 
